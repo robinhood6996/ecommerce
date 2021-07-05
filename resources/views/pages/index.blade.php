@@ -186,7 +186,7 @@
 														<input type="radio" name="product_color" style="background:#000000">
 														<input type="radio" name="product_color" style="background:#999999">
 													</div> --}}
-													<button class="product_cart_button">Add to Cart</button>
+													<button class="product_cart_button addcart" data-id="{{ $product->id }}">Add to Cart</button>
 												</div>
 											</div>
 											<button class="addwishlist" data-id="{{ $product->id }}">
@@ -349,7 +349,7 @@
 												@endif
 													<div class="product_name"><div><a href="product.html">{{ $row->product_name }}</a></div></div>
 													<div class="product_extras">
-														<button class="product_cart_button">Add to Cart</button>
+														<button class="product_cart_button addcart" data-id="{{ $product->id }}">Add to Cart</button>
 													</div>
 												</div>
 												<button class="addwishlist" data-id="{{ $product->id }}">
@@ -1497,7 +1497,44 @@
 
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			  $('.addcart').on('click', function(){  
+				var id = $(this).data('id');
+				if(id) {
+				   $.ajax({
+					   url: "{{  url('/add/to/cart') }}/"+id,
+					   type:"GET",
+					   dataType:"json",
+					   success:function(data) {
+						const Toast = Swal.mixin({
+                          toast: true,
+                          position: 'top-end',
+                          showConfirmButton: false,
+                          timer: 3000
+                        })
+                        if($.isEmptyObject(data.error)){
+						Toast.fire({
+                              type: 'success',
+                              title: data.success
+                            })
+						}else{
+							Toast.fire({
+                              type: 'error',
+                              title: data.error
+                            })
+						}
+					   },
+					  
+				   });
+			   } else {
+				   alert('danger');
+			   }
 
+		   });
+	   });
+  
+  </script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			  $('.addwishlist').on('click', function(){  

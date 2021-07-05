@@ -99,6 +99,20 @@ Route::post('store/newsletter', 'Frontend\FrontCrontroller@StoreNewsletter')->na
 //Wishlist Routes Here===========
 Route::get('/add/wishlist/{id}', 'WishlistController@AddWishlist');
 
+//Cart Routes Here==========
+Route::get('/add/to/cart/{id}', 'CartController@AddCart');
+Route::get('check', 'CartController@Check');
+
+
+
+
+
+
+
+
+
+
+
 // Route::get('test',function(){
 //     Cart::add('293ad', 'Product 1', 1, 9.99, 550);
 
