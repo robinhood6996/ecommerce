@@ -21,6 +21,12 @@
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
 <link href="{{ asset('public/backend/sweetalert/sweetalert.css')}}" rel="stylesheet">
 <link rel="stylesheet" href="sweetalert2.min.css">
+
+<link rel="stylesheet" type="text/css" href="{{ asset('public/frontend/styles/product_styles.css')}}">
+<link rel="stylesheet" type="text/css" href="{{ asset('public/frontend/styles/product_responsive.css')}}">
+
+<link rel="stylesheet" type="text/css" href="{{('public/frontend/styles/cart_styles.css')}}">
+<link rel="stylesheet" type="text/css" href="{{('public/frontend/styles/cart_responsive.css')}}">
 </head>
 
 <body>
@@ -154,8 +160,8 @@
 										<div class="cart_count"><span> {{ Cart::count() }}</span></div>
 									</div>
 									<div class="cart_content">
-										<div class="cart_text"><a href="#">Cart</a></div>
-										<div class="cart_price">$85</div>
+										<div class="cart_text"><a href="{{ route('show.cart') }}">Cart</a></div>
+										<div class="cart_price">{{ Cart::Subtotal() }}</div>
 									</div>
 								</div>
 							</div>
@@ -286,6 +292,8 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 <script src="{{ asset('public/frontend/plugins/slick-1.8.0/slick.js')}}"></script>
 <script src="{{ asset('public/frontend/plugins/easing/easing.js')}}"></script>
 <script src="{{ asset('public/frontend/js/custom.js')}}"></script>
+
+<script src="{{ asset('public/frontend/js/product_custom.js')}}"></script>
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" ></script>
 

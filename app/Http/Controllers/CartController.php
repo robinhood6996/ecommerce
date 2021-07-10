@@ -12,11 +12,10 @@ class CartController extends Controller
 {
     public function AddCart($id)
     {
-        $product = DB::table('products')->where('id',$id)->first();
+        $product = DB::table('products')->where('id', $id)->first();
 
 
-        if($product->discount_price == NULL)
-        {
+        if ($product->discount_price == NULL) {
             $data = array();
             $data['id'] = $product->id;
             $data['name'] = $product->product_name;
@@ -24,10 +23,11 @@ class CartController extends Controller
             $data['price'] = $product->selling_price;
             $data['weight'] = 1;
             $data['options']['image'] = $product->image_one;
+            $data['options']['color'] = "";
+            $data['options']['size'] = "";
             Cart::add($data);
             return \Response::json(['success' => 'Product added on your cart']);
-
-        }else{
+        } else {
             $data = array();
             $data['id'] = $product->id;
             $data['name'] = $product->product_name;
@@ -35,9 +35,17 @@ class CartController extends Controller
             $data['price'] = $product->discount_price;
             $data['weight'] = 1;
             $data['options']['image'] = $product->image_one;
+            $data['options']['color'] = "";
+            $data['options']['size'] = "";
             Cart::add($data);
             return \Response::json(['success' => 'Product added on your cart']);
         }
+    }
+
+    public function ShowCart()
+    {
+        $cart = Cart::Content();
+        return view('pages.cart', compact('cart'));
     }
 
 
@@ -45,5 +53,19 @@ class CartController extends Controller
     {
         $content = Cart::content();
         return response()->json($content);
+    }
+
+    public function UpdateCart(Request $request)
+    {
+        $rowId = $request->productId;
+        $qty = $request->qty;
+        Cart::update($rowId, $qty);
+        return redirect()->back();
+    }
+
+    public function Delete($rowId)
+    {
+        Cart::remove($rowId);
+        return redirect()->back();
     }
 }

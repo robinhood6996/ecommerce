@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@include('pages.slider')
 @section('content')
 
      

@@ -10,6 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+use App\Http\Controllers\Admin\ProductController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -102,7 +104,13 @@ Route::get('/add/wishlist/{id}', 'WishlistController@AddWishlist');
 //Cart Routes Here==========
 Route::get('/add/to/cart/{id}', 'CartController@AddCart');
 Route::get('check', 'CartController@Check');
+Route::get('cart', 'CartController@ShowCart')->name('show.cart');
+Route::post('update/cartitem', 'CartController@UpdateCart')->name('update.cartitem');
+Route::get('remove/cart/{rowId}', 'CartController@Delete');
 
+//Product Routes=======
+Route::get('product/details/{id}/{product_name}', 'ProductController@index');
+Route::post('cart/product/add/{id}', 'ProductController@AddCart');
 
 
 

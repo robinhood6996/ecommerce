@@ -4,6 +4,7 @@
 
 @section('content')
 @include('pages.menubar')
+@include('pages.slider')
 	<!-- Characteristics -->
 @php
 	$featured      = DB::table('products')->where('status',1)->orderBY('id','desc')->limit(24)->get();
@@ -179,7 +180,7 @@
 												<div class="product_price discount">${{ $product->discount_price }}<span>${{ $product->selling_price }}</span></div>
 												@endif
 												
-												<div class="product_name"><div><a href="#">{{ $product->product_name}}</a></div></div>
+												<div class="product_name"><div><a href="{{ url('product/details/'.$product->id.'/'.$product->product_name)}}">{{ $product->product_name}}</a></div></div>
 												<div class="product_extras">
 													{{-- <div class="product_color">
 														<input type="radio" checked name="product_color" style="background:#b19c83">
