@@ -10,7 +10,8 @@
 
 <link rel="stylesheet" type="text/css" href="{{  asset('public/frontend/styles/bootstrap4/bootstrap.min.css')}}">
 <link href="{{ asset('public/frontend/plugins/fontawesome-free-5.0.1/css/fontawesome-all.css')}}" rel="stylesheet" type="text/css">
-
+<link href="{{ asset('public/backend/sweetalert/sweetalert.css')}}" rel="stylesheet">
+<link rel="stylesheet" href="sweetalert2.min.css">
 <link rel="stylesheet" type="text/css" href="{{ asset('public/frontend/plugins/OwlCarousel2-2.2.1/owl.carousel.css')}}">
 <link rel="stylesheet" type="text/css" href="{{ asset('public/frontend/plugins/OwlCarousel2-2.2.1/owl.theme.default.css')}}">
 <link rel="stylesheet" type="text/css" href="{{ asset('public/frontend/plugins/OwlCarousel2-2.2.1/animate.css')}}">
@@ -19,14 +20,18 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('public/frontend/styles/responsive.css')}}">
 
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" />
-<link href="{{ asset('public/backend/sweetalert/sweetalert.css')}}" rel="stylesheet">
-<link rel="stylesheet" href="sweetalert2.min.css">
 
+{{-- product Styles --}}
 <link rel="stylesheet" type="text/css" href="{{ asset('public/frontend/styles/product_styles.css')}}">
 <link rel="stylesheet" type="text/css" href="{{ asset('public/frontend/styles/product_responsive.css')}}">
-
+{{-- Cart Styles --}}
 <link rel="stylesheet" type="text/css" href="{{('public/frontend/styles/cart_styles.css')}}">
 <link rel="stylesheet" type="text/css" href="{{('public/frontend/styles/cart_responsive.css')}}">
+{{-- Blog Styles --}}
+<link rel="stylesheet" type="text/css" href="{{asset('public/frontend/styles/blog_styles.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('public/frontend/styles/blog_responsive.css')}}">
+
+
 </head>
 
 <body>
@@ -47,14 +52,16 @@
 						<div class="top_bar_contact_item"><div class="top_bar_icon"><img src="images/mail.png" alt=""></div><a href="mailto:fastsales@gmail.com">fastsales@gmail.com</a></div>
 						<div class="top_bar_content ml-auto">
 							<div class="top_bar_menu">
+								@php
+									$language = session()->get('lang');
+								@endphp
 								<ul class="standard_dropdown top_bar_dropdown">
 									<li>
-										<a href="#">English<i class="fas fa-chevron-down"></i></a>
-										<ul>
-											<li><a href="#">Italian</a></li>
-											<li><a href="#">Spanish</a></li>
-											<li><a href="#">Japanese</a></li>
-										</ul>
+									@if(session()->get('lang') == 'bangla')
+									<a href="{{route('language.english')}}">EN<i class="fas fa-chevron-down"></i></a>
+									@else
+									<a href="{{route('language.bangla')}}">BN<i class="fas fa-chevron-down"></i></a>
+									@endif
 									</li>
 									<li>
 										<a href="#">$ US dollar<i class="fas fa-chevron-down"></i></a>
@@ -76,8 +83,8 @@
 										<a href="{{ route('home') }}"><div class="user_icon"><img src="{{ asset('public/frontend/images/user.svg')}}"/></div> Profile</a>
 										<ul>
 											<li><a href="#">My Orders</a></li>
-											<li><a href="#">Wishlist</a></li>
-											<li><a href="#">Checkout</a></li>
+											<li><a href="{{route('wishlist')}}">Wishlist</a></li>
+											<li><a href="{{route('checkout')}}">Checkout</a></li>
 										</ul >
 									</li>
 								</ul>
@@ -103,7 +110,13 @@
 					<!-- Logo -->
 					<div class="col-lg-2 col-sm-3 col-3 order-1">
 						<div class="logo_container">
-							<div class="logo"><a href="{{ url('/')}}">OneTech</a></div>
+							<div class="logo"><a href="{{ url('/')}}">
+								@if(session()->get('lang') == 'bangla')
+								 বাংলা
+								@else
+								OneTech
+								@endif
+							</a></div>
 						</div>
 					</div>
 
@@ -146,7 +159,7 @@
 							<div class="wishlist d-flex flex-row align-items-center justify-content-end">
 								<div class="wishlist_icon"><img src="{{('public/frontend/images/heart.png')}}" alt=""></div>
 								<div class="wishlist_content">
-									<div class="wishlist_text"><a href="#">Wishlist</a></div>
+									<div class="wishlist_text"><a href="{{route('wishlist')}}">Wishlist</a></div>
 									<div class="wishlist_count">{{ count($wishlist) }}</div>
 								</div>
 							</div>
@@ -161,7 +174,11 @@
 									</div>
 									<div class="cart_content">
 										<div class="cart_text"><a href="{{ route('show.cart') }}">Cart</a></div>
+										@if(Session::has('coupon'))
+											<div class="cart_price">${{ Session::get('coupon')['balance'] }}</div>
+										@else
 										<div class="cart_price">{{ Cart::Subtotal() }}</div>
+										@endif
 									</div>
 								</div>
 							</div>
@@ -278,6 +295,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		</div>
 	</div>
 </div>
+<script src="{{ asset('public\backend\sweetalert\sweetalert.min.js')}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
 
 <script src="{{ asset('public/frontend/js/jquery-3.3.1.min.js')}}"></script>
@@ -297,7 +315,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" ></script>
 
-<script src="{{ asset('public\backend\sweetalert\sweetalert.min.js')}}"></script>
+
 <script>
 	@if(Session::has('message'))
 	var type="{{Session::get('alert-type','info')}}"

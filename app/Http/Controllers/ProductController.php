@@ -65,4 +65,12 @@ class ProductController extends Controller
             return redirect()->back()->with($notification);
         }
     }
+
+    public function ProductsBySubCat($id)
+    {
+        $product = DB::table('products')->where('subcategory_id', $id)->paginate(20);
+        $brands = DB::table('products')->where('subcategory_id', $id)->select('brand_id')->groupBy('brand_id')->get();
+        $quantity = DB::table('products')->where('subcategory_id', $id)->count();
+        return view('pages.all_products', compact('product', 'brands', 'quantity'));
+    }
 }

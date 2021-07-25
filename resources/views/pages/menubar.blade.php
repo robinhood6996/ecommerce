@@ -38,7 +38,7 @@
 												$subcategory = DB::table('subcategories')->where('category_id',$cat->id)->get();
 											@endphp
 											@foreach ($subcategory as $row)
-											<li><a href="#">{{ $row->subcategory_name}}<i class="fas fa-chevron-right"></i></a></li>
+											<li><a href="{{url('products/'.$row->id)}}">{{ $row->subcategory_name}}<i class="fas fa-chevron-right"></i></a></li>
 											@endforeach
 										</ul>
 									</li>
@@ -50,7 +50,7 @@
 
 							<div class="main_nav_menu ml-auto">
 								<ul class="standard_dropdown main_nav_dropdown">
-									<li><a href="#">Home<i class="fas fa-chevron-down"></i></a></li>
+									<li><a href="{{url('/')}}">Home<i class="fas fa-chevron-down"></i></a></li>
 									<li class="hassubs">
 										<a href="#">Super Deals<i class="fas fa-chevron-down"></i></a>
 										<ul>
@@ -95,7 +95,7 @@
 											<li><a href="contact.html">Contact<i class="fas fa-chevron-down"></i></a></li>
 										</ul>
 									</li>
-									<li><a href="blog.html">Blog<i class="fas fa-chevron-down"></i></a></li>
+									<li><a href="{{route('blogs')}}">Blog<i class="fas fa-chevron-down"></i></a></li>
 									<li><a href="contact.html">Contact<i class="fas fa-chevron-down"></i></a></li>
 								</ul>
 							</div>

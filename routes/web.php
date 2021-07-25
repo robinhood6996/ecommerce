@@ -107,10 +107,33 @@ Route::get('check', 'CartController@Check');
 Route::get('cart', 'CartController@ShowCart')->name('show.cart');
 Route::post('update/cartitem', 'CartController@UpdateCart')->name('update.cartitem');
 Route::get('remove/cart/{rowId}', 'CartController@Delete');
+Route::get('cart/product/view/{id}', 'CartController@ViewProduct');
+Route::post('insert/into/cart/', 'CartController@InsertCart')->name('insert.into.cart');
+Route::get('checkout', 'CartController@Checkout')->name('checkout');
+
+//wishlist
+Route::get('wishlist', 'CartController@Wishlist')->name('wishlist');
+//Coupon
+Route::post('apply/coupon', 'CartController@Coupon')->name('apply.coupon');
+Route::get('coupon/remove', 'CartController@CouponRemove')->name('remove.coupon');
+
+//Payment Routes
+Route::get('order/confirm', 'PaymentController@PaymentStep')->name('payment.step');
+Route::post('make-payment', 'PaymentController@MakePayment')->name('payment.process');
+Route::post('payment-complete', 'PaymentController@StripeCharge')->name('Payment.complete');
+
+
+//Post Routes Here
+Route::get('all/blogs', 'BlogController@Blogs')->name('blogs');
+Route::get('lang/en', 'BlogController@English')->name('language.english');
+Route::get('lang/bn', 'BlogController@Bangla')->name('language.bangla');
+
+
 
 //Product Routes=======
 Route::get('product/details/{id}/{product_name}', 'ProductController@index');
 Route::post('cart/product/add/{id}', 'ProductController@AddCart');
+Route::get('products/{id}', 'ProductController@ProductsBySubCat');
 
 
 
@@ -129,3 +152,7 @@ Route::post('cart/product/add/{id}', 'ProductController@AddCart');
 //    return Cart::content();
 
 // });
+
+
+Route::get('stripe', 'StripePaymentController@stripe');
+Route::post('stripe', 'StripePaymentController@stripePost')->name('stripe.post');

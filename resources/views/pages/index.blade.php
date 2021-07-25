@@ -187,7 +187,7 @@
 														<input type="radio" name="product_color" style="background:#000000">
 														<input type="radio" name="product_color" style="background:#999999">
 													</div> --}}
-													<button class="product_cart_button addcart" data-id="{{ $product->id }}">Add to Cart</button>
+													<button  id="{{ $product->id }}"  class="product_cart_button addcart" data-toggle="modal" data-target="#cartmodal"  onclick="productview(this.id)">Add to Cart</button>
 												</div>
 											</div>
 											<button class="addwishlist" data-id="{{ $product->id }}">
@@ -201,7 +201,7 @@
 												@else 
 												@php
 													$ammount = $product->selling_price - $product->discount_price;
-													$discount = $ammount/$product->discount_price*100;
+													$discount = $ammount/$product->selling_price*100;
 												@endphp
 												<li class="product_mark product_discount">{{ intval($discount) }}%</li>
 												@endif
@@ -338,7 +338,7 @@
 										@foreach ($trend as $product)
 											
 										
-										<div class="arrivals_slider_item" style="padding: 10px">
+										<div class="arrivals_slider_item" style="padding: 10px; display :block !important">
 											<div class="border_active"></div>
 											<div class="product_item is_new d-flex flex-column align-items-center justify-content-center text-center">
 												<div class="product_image d-flex flex-column align-items-center justify-content-center"><img src="{{asset($product->image_one)}}" alt="" height="120px" width="140px"></div>
@@ -348,9 +348,9 @@
 											    @else 
 												<div class="product_price discount">${{ $product->discount_price }}<span>${{ $product->selling_price }}</span></div>
 												@endif
-													<div class="product_name"><div><a href="product.html">{{ $row->product_name }}</a></div></div>
+													<div class="product_name"><div><a href="{{ url('product/details/'.$product->id.'/'.$product->product_name)}}">{{ $product->product_name}}</a></div></div>
 													<div class="product_extras">
-														<button class="product_cart_button addcart" data-id="{{ $product->id }}">Add to Cart</button>
+														<button class="product_cart_button addcart" data-toggle="modal" data-target="#cartmodal"  onclick="productview(this.id)" id="{{ $product->id }}">Add to Cart</button>
 													</div>
 												</div>
 												<button class="addwishlist" data-id="{{ $product->id }}">
@@ -382,7 +382,7 @@
 
 	<!-- Best Sellers -->
 
-	<div class="best_sellers">
+	<div class="best_sellers" style="margin-top:50px !important">
 		<div class="container">
 			<div class="row">
 				<div class="col">
@@ -1168,7 +1168,7 @@
 									<div class="trends_content">
 										<div class="trends_category"><a href="#">HHH</a></div>
 										<div class="trends_info clearfix">
-											<div class="trends_name"><a href="product.html">{{ $product->product_name }}</a></div>
+											<div class="product_name"><div><a href="{{ url('product/details/'.$product->id.'/'.$product->product_name)}}">{{ $product->product_name}}</a></div></div>
 											@if ( $product->discount_price == NULL )
 											<div class="trends_price">${{ $product->selling_price }}</div>
 											@else 
@@ -1495,47 +1495,107 @@
 		</div>
 	</div>
 
+<!--product cart add modal-->
 
+<!-- Modal -->
+<div class="modal fade " id="cartmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-center" id="exampleModalLabel">Product Short Description</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       <div class="row">
+          <div class="col-md-4">
+              <div class="card" style="width: 16rem;">
+              <img src="" class="card-img-top" id="pimage" style="height: 240px;">
+              <div class="card-body">
+               
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 ml-auto">
+              <ul class="list-group">
+                <li class="list-group-item"> <h5 class="card-title" id="pname"> </h5></li>
+             <li class="list-group-item">Product code: <span id="pcode"> </span></li>
+              <li class="list-group-item">Category:  <span id="pcat"> </span></li>
+              <li class="list-group-item">SubCategory:  <span id="psubcat"> </span></li>
+              <li class="list-group-item">Brand: <span id="pbrand"> </span></li>
+              <li class="list-group-item">Stock: <span class="badge " style="background: green; color:white;">Available</span></li>
+            </ul>
+          </div>
+          <div class="col-md-4 ">
+              <form action="{{ route('insert.into.cart') }}" method="post">
+                @csrf
+                <input type="hidden" name="product_id" id="product_id">
+                <div class="form-group" id="colordiv">
+                  <label for="">Color</label>
+                  <select name="color" class="form-control">
+                  </select>
+                </div>
+                 <div class="form-group" id="sizediv" >
+                  <label for="exampleInputEmail1">Size</label>
+                  <select name="size" class="form-control" id="size">
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Quantity</label>
+                  <input type="number" class="form-control" value="1" name="qty">
+                </div>
+                <button type="submit" class="btn btn-primary">Add To Cart</button>
+              </form>
+           </div>
+         </div>
+      </div>  
+    </div>
+  </div>
+</div>
+<!--modal end-->
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script type="text/javascript">
-		$(document).ready(function() {
-			  $('.addcart').on('click', function(){  
-				var id = $(this).data('id');
-				if(id) {
-				   $.ajax({
-					   url: "{{  url('/add/to/cart') }}/"+id,
-					   type:"GET",
-					   dataType:"json",
-					   success:function(data) {
-						const Toast = Swal.mixin({
-                          toast: true,
-                          position: 'top-end',
-                          showConfirmButton: false,
-                          timer: 3000
-                        })
-                        if($.isEmptyObject(data.error)){
-						Toast.fire({
-                              type: 'success',
-                              title: data.success
-                            })
-						}else{
-							Toast.fire({
-                              type: 'error',
-                              title: data.error
-                            })
-						}
-					   },
-					  
-				   });
-			   } else {
-				   alert('danger');
-			   }
+	
+  <script type="text/javascript">
+    function productview(id){
+          $.ajax({
+                     url: "{{  url('cart/product/view/') }}/"+id,
+                     type:"GET",
+                     dataType:"json",
+                     success:function(data) {
+				
+                       $('#pname').text(data.product.product_name);
+                       $('#pimage').attr('src',data.product.image_one);
+                       $('#pcat').text(data.product.category_name);
+                       $('#psubcat').text(data.product.subcategory_name);
+                       $('#pbrand').text(data.product.brand_name);
+                       $('#pcode').text(data.product.product_code);
+                       $('#product_id').val(data.product.id);
 
-		   });
-	   });
-  
-  </script>
+                        var d =$('select[name="size"]').empty();
+                         $.each(data.size, function(key, value){
+                             $('select[name="size"]').append('<option value="'+ value +'">' + value + '</option>');
+                              if (data.size == "") {
+                                     $('#sizediv').hide();   
+                              }else{
+                                    $('#sizediv').show();
+                              } 
+                         });
+
+                        var d =$('select[name="color"]').empty();
+                         $.each(data.color, function(key, value){
+                             $('select[name="color"]').append('<option value="'+ value +'">' + value + '</option>');
+                               if (data.color == "") {
+                                     $('#colordiv').hide();
+                              } else{
+                                   $('#colordiv').show();
+                              }
+                         });
+             }
+      })
+    }
+</script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			  $('.addwishlist').on('click', function(){  
@@ -1574,4 +1634,45 @@
 	   });
   
   </script>
+
+
+{{-- <script type="text/javascript">
+		$(document).ready(function() {
+			  $('.addcart').on('click', function(){  
+				var id = $(this).data('id');
+				if(id) {
+				   $.ajax({
+					   url: "{{  url('/add/to/cart') }}/"+id,
+					   type:"GET",
+					   dataType:"json",
+					   success:function(data) {
+						const Toast = Swal.mixin({
+                          toast: true,
+                          position: 'top-end',
+                          showConfirmButton: false,
+                          timer: 3000
+                        })
+                        if($.isEmptyObject(data.error)){
+						Toast.fire({
+                              type: 'success',
+                              title: data.success
+                            })
+						}else{
+							Toast.fire({
+                              type: 'error',
+                              title: data.error
+                            })
+						}
+					   },
+					  
+				   });
+			   } else {
+				   alert('danger');
+			   }
+
+		   });
+	   });
+  
+  </script> --}}
+
     @endsection

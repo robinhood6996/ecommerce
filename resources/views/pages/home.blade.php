@@ -1,7 +1,7 @@
 @extends('layouts.app')
-@include('pages.slider')
-@section('content')
 
+@section('content')
+@include('pages.menubar')
      
     
     
