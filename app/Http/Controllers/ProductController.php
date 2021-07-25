@@ -73,4 +73,24 @@ class ProductController extends Controller
         $quantity = DB::table('products')->where('subcategory_id', $id)->count();
         return view('pages.all_products', compact('product', 'brands', 'quantity'));
     }
+
+
+    //Order View 
+    public function ViewOrder($id)
+    {
+        $order = DB::table('orders')
+            ->join('users', 'orders.user_id', 'users.id')
+            ->select('users.name', 'users.phone', 'orders.*')
+            ->where('orders.id', $id)
+            ->first();
+
+        $shipping = DB::table('shipping')->where('order_id', $id)->first();
+
+        $details = DB::table('order_details')
+            ->join('products', 'order_details.product_id', 'products.id')
+            ->select('products.product_code', 'products.image_one', 'order_details.*')
+            ->where('order_details.order_id', $id)->get();
+
+        return view('pages.view_order', compact('order', 'shipping', 'details'));
+    }
 }

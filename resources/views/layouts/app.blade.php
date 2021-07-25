@@ -82,7 +82,7 @@
 									<li>
 										<a href="{{ route('home') }}"><div class="user_icon"><img src="{{ asset('public/frontend/images/user.svg')}}"/></div> Profile</a>
 										<ul>
-											<li><a href="#">My Orders</a></li>
+											<li><a href="{{ route('home') }}">My Orders</a></li>
 											<li><a href="{{route('wishlist')}}">Wishlist</a></li>
 											<li><a href="{{route('checkout')}}">Checkout</a></li>
 										</ul >

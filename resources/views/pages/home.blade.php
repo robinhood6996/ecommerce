@@ -2,7 +2,10 @@
 
 @section('content')
 @include('pages.menubar')
-     
+@php
+    $order = DB::table('orders')->where('user_id',Auth::id())->get();
+   
+@endphp
     
     
 
@@ -23,31 +26,31 @@
                      </tr>
                    </thead>
                    <tbody>
-                   
+                   @foreach ($order as $item)
                      <tr>
-                       <th >tt</th>
-                       <td>tt</td>
-                       <td>h</td>
-                       <td>d</td>
+                       <th class="w-15">{{$item->payment_type}}</th>
+                       <td>{{$item->payment_id}}</td>
+                       <td>{{$item->total}}</td>
+                       <td>{{$item->date}}</td>
+                       <td>{{$item->status_code}}</td>
                        <td>
-                       	{{-- @if($row->status == 0)
+                       	@if($item->status == 0)
                        	 <span class="badge badge-warning">Pending</span>
-                       	@elseif($row->status == 1)
+                       	@elseif($item->status == 1)
                        	<span class="badge badge-info">Payment Accept</span>
-                       	@elseif($row->status == 2) 
+                       	@elseif($item->status == 2) 
                        	 <span class="badge badge-info">Progress </span>
-                       	 @elseif($row->status == 3)  
+                       	 @elseif($item->status == 3)  
                        	 <span class="badge badge-success">Delevered </span>
                        	 @else
                        	 <span class="badge badge-danger">Cancel </span>
-                       	 @endif --}}yy
+                       	 @endif
                        </td>
-                       <td></td>
                        <td>
-                         <a href="#" class="btn btn-sm btn-info">View</a>
+                         <a href="{{url('view/order/'.$item->id)}}" class="btn btn-sm btn-info">View</a>
                        </td>
                      </tr>
-                  
+                   @endforeach
                    </tbody>
                  </table>
                </div>

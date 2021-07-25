@@ -152,7 +152,7 @@
      </a><!-- sl-menu-link -->
      <ul class="sl-menu-sub nav flex-column">
        <li class="nav-item"><a href=" {{ route('admin.newletters') }} " class="nav-link">Newsletter</a></li>
-       <li class="nav-item"><a href="page-signin.html" class="nav-link">Signin Page</a></li>
+       <li class="nav-item"><a href="{{route('admin.seo')}}" class="nav-link">SEO Setting</a></li>
        <li class="nav-item"><a href="page-signup.html" class="nav-link">Signup Page</a></li>
        <li class="nav-item"><a href="page-notfound.html" class="nav-link">404 Page Not Found</a></li>
      </ul>

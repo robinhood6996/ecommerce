@@ -105,6 +105,11 @@ Route::get('admin/delevery/done/{id}', 'Admin\OrderController@DeliveryDone');
 Route::get('admin/deliverd/orders', 'Admin\OrderController@DeliveredOrders')->name('admin.delivered.orders');
 Route::get('admin/canceled/orders', 'Admin\OrderController@CancelOrders')->name('admin.cancel.orders');
 
+
+//SEO SETTINGS ROUTES=============
+Route::get('admin/seo/setting', 'SettingsController@Seo')->name('admin.seo');
+Route::post('admin/seo/setting', 'SettingsController@UpdateSeo')->name('update.seo');
+
 //All Frontend Routes Here=======
 Route::post('store/newsletter', 'Frontend\FrontCrontroller@StoreNewsletter')->name('store.newsletter');
 
@@ -146,7 +151,8 @@ Route::get('product/details/{id}/{product_name}', 'ProductController@index');
 Route::post('cart/product/add/{id}', 'ProductController@AddCart');
 Route::get('products/{id}', 'ProductController@ProductsBySubCat');
 
-
+//Order Routes Here============
+Route::get('view/order/{id}', 'ProductController@ViewOrder');
 
 
 
