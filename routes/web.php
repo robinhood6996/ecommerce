@@ -93,6 +93,17 @@ Route::post('admin/posts/store', 'Admin\posts\PostController@StorePost')->name('
 Route::get('edit/post/{id}', 'Admin\posts\PostController@EditPost');
 Route::post('admin/posts/update', 'Admin\posts\PostController@UpdatePost')->name('update.post');
 
+// Orders Routes=========================
+Route::get('admin/pending/orders', 'Admin\OrderController@NewOrders')->name('admin.neworders');
+Route::get('admin/view/order/{id}', 'Admin\OrderController@ViewOrder');
+Route::get('admin/payment/accept/{id}', 'Admin\OrderController@PaymentAccept');
+Route::get('admin/payment/cancel/{id}', 'Admin\OrderController@PaymentCancel');
+Route::get('admin/paid/orders', 'Admin\OrderController@PaidOrders')->name('admin.paid.orders');
+Route::get('admin/delevery/progress/{id}', 'Admin\OrderController@DeliveryProcessing');
+Route::get('admin/processing/orders', 'Admin\OrderController@ProcessingOrders')->name('admin.processing.orders');
+Route::get('admin/delevery/done/{id}', 'Admin\OrderController@DeliveryDone');
+Route::get('admin/deliverd/orders', 'Admin\OrderController@DeliveredOrders')->name('admin.delivered.orders');
+Route::get('admin/canceled/orders', 'Admin\OrderController@CancelOrders')->name('admin.cancel.orders');
 
 //All Frontend Routes Here=======
 Route::post('store/newsletter', 'Frontend\FrontCrontroller@StoreNewsletter')->name('store.newsletter');

@@ -49,7 +49,7 @@ class PaymentController extends Controller
             "amount" => $request->total * 100,
             "currency" => "usd",
             "source" => $request->stripeToken,
-            "description" => "Payment of Product Selling to customer : " . Auth::user()->name,
+            "description" => "Payment of Product Selling to customer : " . Auth::user(),
             "metadata"  => ['orderid' => uniqid()],
         ]);
 
